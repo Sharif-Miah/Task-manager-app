@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
+import ModalTaskForm from "../ModalTaskForm/ModalTaskForm";
 import TaskActions from "../TaskActions/TaskActions";
 import TaskList from "../TaskList/TaskList";
 import TaskSerchInput from "../TaskSerchInput/TaskSerchInput";
@@ -16,16 +17,22 @@ const TaskBoard = () => {
   };
 
   const [tasks, setTasks] = useState([initialTask]);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const handleAddTask = () => {
+    console.log("Add a Task...");
+  };
 
   return (
     <section className="mb-20" id="tasks">
+      {isOpenModal && <ModalTaskForm />}
       <div className="container">
         <div className="p-2 flex justify-end">
-          <TaskSerchInput />
+          <TaskSerchInput onOpenModel={() => setIsOpenModal(true)} />
         </div>
 
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
-          <TaskActions />
+          <TaskActions onAddClick={() => setIsOpenModal(true)} />
           <TaskList tasks={tasks} />
         </div>
       </div>
