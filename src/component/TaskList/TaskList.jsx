@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 const TaskList = ({ tasks }) => {
   const [isFavorit, setIsFavorit] = useState(true);
+  // console.log(tasks);
   return (
     <div className="overflow-auto">
       <table className="table-fixed overflow-auto xl:w-full">
@@ -32,7 +33,7 @@ const TaskList = ({ tasks }) => {
           </tr>
         </thead>
         <tbody>
-          {tasks.map((task) => (
+          {tasks?.map((task) => (
             <tr
               key={task.id}
               className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2"
@@ -44,7 +45,7 @@ const TaskList = ({ tasks }) => {
                   <FaStar className="text-gray-400" />
                 )}
               </td>
-              <td>{task.tittle}</td>
+              <td>{task.title}</td>
               <td>
                 <div>{task.description}</div>
               </td>

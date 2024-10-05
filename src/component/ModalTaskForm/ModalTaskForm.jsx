@@ -1,8 +1,43 @@
-const ModalTaskForm = () => {
+import { useState } from "react";
+
+const ModalTaskForm = ({ onSave, setIsOpenModal }) => {
+  const [task, setTask] = useState({
+    id: crypto.randomUUID(),
+    title: "",
+    description: "",
+    tags: [],
+    priority: "",
+    isFavorite: true,
+  });
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    let value = event.target.value;
+
+    if (name === "tags") {
+      value = value.split(",");
+    }
+
+    setTask({
+      ...task,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onSave(task);
+
+    // console.log(tasks);
+  };
+
   return (
     <>
       <div className="bg-black bg-opacity-70 absolute w-full h-full top-0 left-0 z-10"></div>
-      <form className="mx-auto my-10 w-full max-w-[640px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11 z-10 absolute top-1/4 left-1/4">
+      <form
+        onSubmit={handleSubmit}
+        className="mx-auto my-10 w-full max-w-[640px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11 z-10 absolute top-1/4 left-1/4"
+      >
         <h2 className="mb-9 text-center text-2xl font-bold text-white lg:mb-11 lg:text-[28px]">
           Add New Task
         </h2>
@@ -15,6 +50,8 @@ const ModalTaskForm = () => {
               type="text"
               name="title"
               id="title"
+              value={task.title}
+              onChange={handleChange}
               required
             />
           </div>
@@ -26,6 +63,8 @@ const ModalTaskForm = () => {
               type="text"
               name="description"
               id="description"
+              value={task.description}
+              onChange={handleChange}
               required
             ></textarea>
           </div>
@@ -38,6 +77,8 @@ const ModalTaskForm = () => {
                 type="text"
                 name="tags"
                 id="tags"
+                value={task.tags}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -48,6 +89,8 @@ const ModalTaskForm = () => {
                 className="block w-full cursor-pointer rounded-md bg-[#2D323F] px-3 py-2.5"
                 name="priority"
                 id="priority"
+                value={task.priority}
+                onChange={handleChange}
                 required
               >
                 <option value="">Select Priority</option>
@@ -60,12 +103,16 @@ const ModalTaskForm = () => {
         </div>
 
         <div className="mt-16 flex justify-between lg:mt-20">
-          <button className="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80">
+          <button
+            onClick={() => setIsOpenModal(false)}
+            className="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
+          >
             Close
           </button>
           <button
             type="submit"
             className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
+            // onClick={() => onSave(task)}
           >
             Save
           </button>

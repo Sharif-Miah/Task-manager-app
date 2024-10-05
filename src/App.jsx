@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="bg-[#191d26]">
       <Navbar />
-      <div className="text-white">
+      <div className="text-white ">
         <Hero />
         <TaskBoard />
       </div>

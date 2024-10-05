@@ -8,7 +8,7 @@ import TaskSerchInput from "../TaskSerchInput/TaskSerchInput";
 const TaskBoard = () => {
   const initialTask = {
     id: crypto.randomUUID(),
-    tittle: "Integration API",
+    title: "Integration API",
     description:
       "Connect an existing API to a third-party database using secure methods and handle data exchange efficiently.",
     tags: ["web", "javaScript", "react"],
@@ -19,13 +19,17 @@ const TaskBoard = () => {
   const [tasks, setTasks] = useState([initialTask]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const handleAddTask = () => {
-    console.log("Add a Task...");
+  const handleAddTask = (newTask) => {
+    setTasks([...tasks, newTask]);
+    console.log("new task added", newTask);
+    setIsOpenModal(false);
   };
 
   return (
-    <section className="mb-20" id="tasks">
-      {isOpenModal && <ModalTaskForm />}
+    <section className="mb-20 max-w-7xl mx-auto" id="tasks">
+      {isOpenModal && (
+        <ModalTaskForm onSave={handleAddTask} setIsOpenModal={setIsOpenModal} />
+      )}
       <div className="container">
         <div className="p-2 flex justify-end">
           <TaskSerchInput onOpenModel={() => setIsOpenModal(true)} />
