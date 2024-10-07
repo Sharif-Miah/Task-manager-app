@@ -1,45 +1,46 @@
 import { useState } from "react";
 
-const ModalTaskForm = ({ onSave, setIsOpenModal }) => {
-  const [task, setTask] = useState({
-    id: crypto.randomUUID(),
-    title: "",
-    description: "",
-    tags: [],
-    priority: "",
-    isFavorite: true,
-  });
+const ModalTaskForm = ({ onSave, updateToTask, setIsOpenModal }) => {
+  const [task, setTask] = useState(
+    updateToTask || {
+      id: crypto.randomUUID(),
+      title: "",
+      description: "",
+      tags: [],
+      priority: "",
+      isFavorit: true,
+    }
+  );
 
-  const handleChange = (event) => {
+  const [isAdd, setIsAdd] = useState(Object.is(updateToTask, null));
+
+  const hadleChange = (event) => {
     const name = event.target.name;
     let value = event.target.value;
 
     if (name === "tags") {
       value = value.split(",");
     }
-
     setTask({
       ...task,
       [name]: value,
     });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    onSave(task);
-
-    // console.log(tasks);
-  };
+  // const hadleAddTask = (event) => {
+  //   event.preventDefault();
+  //   onSave(task, isAdd);
+  // };
 
   return (
     <>
       <div className="bg-black bg-opacity-70 absolute w-full h-full top-0 left-0 z-10"></div>
       <form
-        onSubmit={handleSubmit}
+        // onSubmit={hadleAddTask}
         className="mx-auto my-10 w-full max-w-[640px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11 z-10 absolute top-1/4 left-1/4"
       >
         <h2 className="mb-9 text-center text-2xl font-bold text-white lg:mb-11 lg:text-[28px]">
-          Add New Task
+          {isAdd ? "Add New Task" : "Edit Task"}
         </h2>
 
         <div className="space-y-9 text-white lg:space-y-10">
@@ -51,7 +52,7 @@ const ModalTaskForm = ({ onSave, setIsOpenModal }) => {
               name="title"
               id="title"
               value={task.title}
-              onChange={handleChange}
+              onChange={hadleChange}
               required
             />
           </div>
@@ -64,7 +65,7 @@ const ModalTaskForm = ({ onSave, setIsOpenModal }) => {
               name="description"
               id="description"
               value={task.description}
-              onChange={handleChange}
+              onChange={hadleChange}
               required
             ></textarea>
           </div>
@@ -78,7 +79,7 @@ const ModalTaskForm = ({ onSave, setIsOpenModal }) => {
                 name="tags"
                 id="tags"
                 value={task.tags}
-                onChange={handleChange}
+                onChange={hadleChange}
                 required
               />
             </div>
@@ -90,7 +91,7 @@ const ModalTaskForm = ({ onSave, setIsOpenModal }) => {
                 name="priority"
                 id="priority"
                 value={task.priority}
-                onChange={handleChange}
+                onChange={hadleChange}
                 required
               >
                 <option value="">Select Priority</option>
@@ -112,7 +113,7 @@ const ModalTaskForm = ({ onSave, setIsOpenModal }) => {
           <button
             type="submit"
             className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
-            // onClick={() => onSave(task)}
+            onClick={() => onSave(task, isAdd)}
           >
             Save
           </button>
