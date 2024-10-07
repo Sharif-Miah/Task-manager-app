@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
-const TaskList = ({ tasks, onEdit }) => {
+const TaskList = ({ tasks, onEdit, onDelete }) => {
   const [isFavorit, setIsFavorit] = useState(false);
   return (
     <div className="overflow-auto">
@@ -62,7 +62,12 @@ const TaskList = ({ tasks, onEdit }) => {
               <td class="text-center">{task.priority}</td>
               <td>
                 <div class="flex items-center justify-center space-x-3">
-                  <button class="text-red-500">Delete</button>
+                  <button
+                    onClick={() => onDelete(task.id)}
+                    class="text-red-500"
+                  >
+                    Delete
+                  </button>
                   <button onClick={() => onEdit(task)} class="text-blue-500">
                     Edit
                   </button>
