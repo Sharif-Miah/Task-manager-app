@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const ModalTaskForm = ({ onSave, updateToTask, setIsOpenModal }) => {
+const ModalTaskForm = ({ onSave, updateToTask, setIsOpenModal, onClose }) => {
   const [task, setTask] = useState(
     updateToTask || {
       id: crypto.randomUUID(),
@@ -105,7 +105,7 @@ const ModalTaskForm = ({ onSave, updateToTask, setIsOpenModal }) => {
 
         <div className="mt-16 flex justify-between lg:mt-20">
           <button
-            onClick={() => setIsOpenModal(false)}
+            onClick={onClose}
             className="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
           >
             Close

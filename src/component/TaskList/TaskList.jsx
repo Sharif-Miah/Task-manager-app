@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
 import { FaStar } from "react-icons/fa";
-const TaskList = ({ tasks, onEdit, onDelete }) => {
-  const [isFavorit, setIsFavorit] = useState(false);
+const TaskList = ({ tasks, onEdit, onDelete, onFav }) => {
   return (
     <div className="overflow-auto">
       <table className="table-fixed overflow-auto xl:w-full">
@@ -38,11 +36,13 @@ const TaskList = ({ tasks, onEdit, onDelete }) => {
               class="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2"
             >
               <td>
-                {isFavorit ? (
-                  <FaStar className="text-yellow-300" />
-                ) : (
-                  <FaStar className="text-gray-400" />
-                )}
+                <button onClick={() => onFav(task.id)}>
+                  {task.isFavorit ? (
+                    <FaStar className=" text-yellow-300" />
+                  ) : (
+                    <FaStar className="text-gray-400" />
+                  )}
+                </button>
               </td>
               <td>{task.title}</td>
               <td>

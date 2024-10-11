@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ModalTaskForm from "../ModalTaskForm/ModalTaskForm";
+import { NoTaskFound } from "../NoTaskFound/NoTaskFound";
 import TaskActions from "../TaskActions/TaskActions";
 import TaskList from "../TaskList/TaskList";
 import TaskSerchInput from "../TaskSerchInput/TaskSerchInput";
@@ -52,6 +53,25 @@ const TaskBoard = () => {
     setTasks([...tasks]);
   };
 
+  const handleFavorit = (taskId) => {
+    const findIndex = tasks.findIndex((task) => task.id === taskId);
+    const newTask = [...tasks];
+    newTask[findIndex].isFavorit = !newTask[findIndex].isFavorit;
+    setTasks(newTask);
+  };
+
+  const handleSerchTerm = (serchTerm) => {
+    const filterd = tasks.filter((task) =>
+      task.title.toLowerCase().includes(serchTerm.toLowerCase())
+    );
+    setTasks([...filterd]);
+  };
+
+  const handleCloseModel = () => {
+    setIsOpenModal(false);
+    setUpdateToTask(null);
+  };
+
   return (
     <section className="mb-20 max-w-7xl mx-auto" id="tasks">
       {isOpenModal && (
@@ -59,11 +79,12 @@ const TaskBoard = () => {
           onSave={addTask}
           updateToTask={updateToTask}
           setIsOpenModal={setIsOpenModal}
+          onClose={handleCloseModel}
         />
       )}
       <div className="container">
         <div className="p-2 flex justify-end">
-          <TaskSerchInput />
+          <TaskSerchInput onSearch={handleSerchTerm} />
         </div>
 
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
@@ -71,11 +92,16 @@ const TaskBoard = () => {
             onOpenModal={() => setIsOpenModal(true)}
             onDeleteAll={handleDeleteAll}
           />
-          <TaskList
-            tasks={tasks}
-            onEdit={handleEditTask}
-            onDelete={hadleDeleteTask}
-          />
+          {tasks.length > 0 ? (
+            <TaskList
+              tasks={tasks}
+              onEdit={handleEditTask}
+              onDelete={hadleDeleteTask}
+              onFav={handleFavorit}
+            />
+          ) : (
+            <NoTaskFound />
+          )}
         </div>
       </div>
     </section>
